@@ -188,7 +188,7 @@ export default function Component() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="relative z-10">
-                <p className="mb-4 text-gray-600 dark:text-gray-300">Forth Group aims to streamline property management processes through technology. They provide consulting services to help property managers optimize their use of platforms like Buildium, ensuring that clients can leverage the software's full capabilities.</p>
+                <p className="mb-4 text-gray-600 dark:text-gray-300">Forth Group aims to streamline property management processes throughs technology. They provide consulting services to help property managers optimize their use of platforms like Buildium, ensuring that clients can leverage the software&apos;s full capabilities.</p>
                 <div className="flex flex-wrap gap-2">
                   <Badge variant="secondary" className="dark:bg-gray-700 dark:text-gray-300">Next.js</Badge>
                   <Badge variant="secondary" className="dark:bg-gray-700 dark:text-gray-300">React</Badge>
