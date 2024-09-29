@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Moon, Sun, ChevronDown } from "lucide-react"
+import { Moon, Sun, ChevronDown, X } from "lucide-react"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Badge } from "../components/ui/badge"
@@ -14,6 +14,7 @@ export default function Component() {
   const [darkMode, setDarkMode] = useState(false)
   const [activeTab, setActiveTab] = useState("Home")
   const [hoverPosition, setHoverPosition] = useState<number | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const hoverRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -41,6 +42,10 @@ export default function Component() {
     setActiveTab("");
   }
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  }
+
   return (
     <div className={`min-h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-white'}`}>
       <header className={`sticky top-0 z-50 transition-all duration-200 ${scrolled ? (darkMode ? "bg-gray-900/80 backdrop-blur-md shadow-sm" : "bg-white/80 backdrop-blur-md shadow-sm") : ""}`}>
@@ -51,7 +56,7 @@ export default function Component() {
                 {darkMode ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
               </button>
             </div>
-            <nav className="relative" onMouseLeave={handleNavMouseLeave}>
+            <nav className="relative hidden sm:block" onMouseLeave={handleNavMouseLeave}>
               <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-1 relative">
                 <ul className="flex relative z-10">
                   {["Home", "Blog", "Snippets", "Resources", "Projects"].map((item, index) => (
@@ -77,14 +82,47 @@ export default function Component() {
                 )}
               </div>
             </nav>
+            <button
+              className="sm:hidden text-gray-500 dark:text-gray-400"
+              onClick={toggleMobileMenu}
+            >
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="sm:hidden bg-white dark:bg-gray-900 py-2">
+            {["Home", "Blog", "Snippets", "Resources", "Projects"].map((item) => (
+              <Link
+                key={item}
+                href="#"
+                className={`block px-4 py-2 text-sm font-medium ${activeTab === item
+                    ? "text-teal-500 dark:text-teal-400"
+                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                  }`}
+                onClick={() => {
+                  setActiveTab(item);
+                  setMobileMenuOpen(false);
+                }}
+              >
+                {item}
+              </Link>
+            ))}
+          </div>
+        )}
       </header>
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-24">
-        <section className="flex justify-between items-start mb-12">
-          <div className="space-y-4">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Uzair Akram</h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300">
+        <section className="flex flex-col sm:flex-row justify-between items-center sm:items-start mb-12">
+          <div className="space-y-4 text-center sm:text-left mb-6 sm:mb-0">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">Uzair Akram</h1>
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300">
               Building <span className="font-medium">Aceternity</span>, <span className="font-medium">Rogue</span> other cool things
             </p>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
@@ -148,7 +186,7 @@ export default function Component() {
         </section>
         <section>
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Projects</h2>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="dark:bg-gray-800 transition-all duration-300 hover:shadow-lg group relative overflow-hidden cursor-pointer hover:scale-[1.02]">
               <div className="absolute inset-0 bg-gradient-to-r from-pink-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <CardHeader className="relative z-10">
